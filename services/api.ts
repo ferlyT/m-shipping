@@ -60,5 +60,57 @@ export const apiClient = {
       console.error(`API POST Error [${endpoint}]:`, err);
       return { data: null, error: err.message || 'Unknown Error', status: 500 };
     }
+  },
+  patch: async <T>(endpoint: string, body: any): Promise<ApiResponse<T>> => {
+    try {
+      const response = await fetch(`${BASE_URL}${endpoint}`, {
+        method: 'PATCH', // Using PATCH for partial updates
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer YOUR_TOKEN_HERE',
+        },
+        body: JSON.stringify(body),
+      });
+
+      const json = await response.json();
+      if (!response.ok) throw new Error(json.message || 'API Patch Failed');
+      
+      return { data: json, error: null, status: response.status };
+    } catch (err: any) {
+      console.error(`API PATCH Error [${endpoint}]:`, err);
+      return { data: null, error: err.message || 'Unknown Error', status: 500 };
+    }
+  },
+  upload: async <T>(endpoint: string, fileUri: string, fieldName: string = 'file'): Promise<ApiResponse<T>> => {
+    try {
+      const formData = new FormData();
+      
+      // Request format for React Native file upload
+      const fileData = {
+        uri: fileUri,
+        name: `photo.jpg`,
+        type: 'image/jpeg',
+      } as any;
+
+      formData.append(fieldName, fileData);
+
+      const response = await fetch(`${BASE_URL}${endpoint}`, {
+        method: 'PATCH', // Matches our backend .patch
+        body: formData,
+        headers: {
+          'Accept': 'application/json',
+          // Note: Don't set 'Content-Type': 'multipart/form-data' manually, 
+          // fetch will do it with the correct boundary.
+        },
+      });
+
+      const json = await response.json();
+      if (!response.ok) throw new Error(json.message || 'Upload Failed');
+      
+      return { data: json, error: null, status: response.status };
+    } catch (err: any) {
+      console.error(`API UPLOAD Error [${endpoint}]:`, err);
+      return { data: null, error: err.message || 'Unknown Error', status: 500 };
+    }
   }
 };

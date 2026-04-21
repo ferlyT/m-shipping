@@ -101,7 +101,7 @@ export default function DashboardScreen() {
             <Text style={styles.pTitle}>Operations Hub</Text>
           </View>
           <TouchableOpacity onPress={() => router.push('/settings')} style={styles.avatarBtn}>
-            <Image source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDGUKg52UXRDXiRhQTaFi7m-5lc0ifcmxUYFcPGRQhK4NGKXBFrb8ahHPJceQBE_D-by6xTtSz6Dlvyz7Q4ldAECScVUGfBGrDx5Ba2R_jSc95ZGTM0pYrdpQ3RwY2XOnFcvm80ZZML90dncd_tcIztP5UHF8sVAhPu6ubKPbNFciSVZYGhewHsF2JtCTzx9lULCD41Z0zWS_WuHR0AG8jzY0JlSzsMG8WEwEPcdPOFX9Bld6NShPFlIryW3t464ZLEB2jCMsJshs4' }} style={styles.avatar} />
+            <Image source={{ uri: 'https://ui-avatars.com/api/?name=User&background=random&color=fff' }} style={styles.avatar} />
           </TouchableOpacity>
         </View>
 

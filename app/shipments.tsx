@@ -106,7 +106,13 @@ export default function ShipmentsScreen() {
 
         {loading ? (
           <View style={styles.loadingContainer}>
-            <ActivityIndicator color={Colors.primaryContainer} />
+             {[1, 2, 3].map((i) => (
+               <View key={i} style={styles.skeletonCard}>
+                  <View style={styles.skeletonHeader} />
+                  <View style={styles.skeletonBody} />
+                  <View style={styles.skeletonFooter} />
+               </View>
+             ))}
           </View>
         ) : (
           <FlatList
@@ -145,7 +151,11 @@ const getStyles = (Colors: any) => StyleSheet.create({
   cardFooterLight: { color: Colors.secondary, fontSize: 11 },
   cardFooterBold: { color: Colors.onSurface, fontWeight: 'bold' },
   linkText: { color: Colors.primaryContainer, fontWeight: 'bold', fontSize: 12 },
-  loadingContainer: { flex: 1, justifyContent: 'center' },
+  loadingContainer: { flex: 1, paddingHorizontal: 24, gap: 16 },
+  skeletonCard: { height: 180, backgroundColor: 'rgba(79, 70, 51, 0.03)', borderRadius: 20, padding: 20, gap: 12, borderWidth: 1, borderColor: Colors.cardBorder },
+  skeletonHeader: { height: 20, width: '40%', backgroundColor: 'rgba(79, 70, 51, 0.05)', borderRadius: 4 },
+  skeletonBody: { height: 60, width: '100%', backgroundColor: 'rgba(79, 70, 51, 0.05)', borderRadius: 8 },
+  skeletonFooter: { height: 15, width: '60%', backgroundColor: 'rgba(79, 70, 51, 0.05)', borderRadius: 4, marginTop: 'auto' },
   emptyContainer: { alignItems: 'center', marginTop: 60 },
   emptyText: { color: Colors.secondary, fontSize: 14, textAlign: 'center' },
 });

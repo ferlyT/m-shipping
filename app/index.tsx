@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Dimensions, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Dimensions, Alert, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as LocalAuthentication from 'expo-local-authentication';
@@ -49,95 +49,106 @@ export default function LoginScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Top Bar Extras */}
-      <View style={styles.topBar}>
-        <BlurView intensity={24} tint={Colors.blurTint} style={styles.langToggle}>
-          <TouchableOpacity 
-            style={language === 'en' ? styles.langBtnActive : styles.langBtn}
-            onPress={() => setLanguage('en')}
-          >
-            <Text style={language === 'en' ? styles.langTextActive : styles.langText}>EN</Text>
-          </TouchableOpacity>
-          <TouchableOpacity 
-            style={language === 'id' ? styles.langBtnActive : styles.langBtn}
-            onPress={() => setLanguage('id')}
-          >
-            <Text style={language === 'id' ? styles.langTextActive : styles.langText}>ID</Text>
-          </TouchableOpacity>
-        </BlurView>
-      </View>
-
-      {/* Main Connectivity Visual (Top 40%) */}
-      <View style={styles.visualHeader}>
-        <Image 
-          source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC-YkLh50AfI1AMPzwwTcXqascJzMSiXdjeM-daXCRTBU1GLJST2XSxXxvJ5dcXJtbFUsQvzCqEvED1_RDK1ZXhm1ecQ4Vz49gsWe5FmG2gF-kwom9eb7ebY34wG_axRXzV9XcRnILL-FM3X6rOrhWH64eQUudkZkd7OYbLQVyJqjVLWf9W8qkezCPdWmONQg7W4e_5IwzyRycOsOYen5drVNBxUM8EMVchDYqy7pSj0V-33YRRWpwyhehJ661C5foSJElbo5gIK2Y' }}
-          style={styles.headerImage}
-        />
-        <View style={styles.brandOverlay}>
-          <Text style={styles.brandTitle}>MShipping</Text>
-          <Text style={styles.brandSubtitle}>{t.brand_subtitle}</Text>
-        </View>
-      </View>
-
-      {/* Login Canvas */}
-      <View style={styles.formContainer}>
-        <View style={styles.inputGroup}>
-          <Text style={styles.label}>{t.access_identity}</Text>
-          <View style={styles.inputWrapper}>
-            <User color={Colors.outlineVariant} size={20} />
-            <TextInput 
-              style={styles.input}
-              placeholder="Sterling_Alex"
-              placeholderTextColor="rgba(79, 70, 51, 0.5)"
-            />
+    <KeyboardAvoidingView 
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView 
+          contentContainerStyle={{ flexGrow: 1 }}
+          bounces={false}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Top Bar Extras */}
+          <View style={styles.topBar}>
+            <BlurView intensity={24} tint={Colors.blurTint} style={styles.langToggle}>
+              <TouchableOpacity 
+                style={language === 'en' ? styles.langBtnActive : styles.langBtn}
+                onPress={() => setLanguage('en')}
+              >
+                <Text style={language === 'en' ? styles.langTextActive : styles.langText}>EN</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={language === 'id' ? styles.langBtnActive : styles.langBtn}
+                onPress={() => setLanguage('id')}
+              >
+                <Text style={language === 'id' ? styles.langTextActive : styles.langText}>ID</Text>
+              </TouchableOpacity>
+            </BlurView>
           </View>
-          <View style={styles.inputUnderline} />
-        </View>
 
-        <View style={styles.inputGroup}>
-          <Text style={styles.label}>{t.secure_key}</Text>
-          <View style={styles.inputWrapper}>
-            <Lock color={Colors.outlineVariant} size={20} />
-            <TextInput 
-              style={styles.input}
-              placeholder="••••••••••••"
-              placeholderTextColor="rgba(79, 70, 51, 0.5)"
-              secureTextEntry={!showPassword}
+          {/* Main Connectivity Visual (Top 40%) */}
+          <View style={styles.visualHeader}>
+            <Image 
+              source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC-YkLh50AfI1AMPzwwTcXqascJzMSiXdjeM-daXCRTBU1GLJST2XSxXxvJ5dcXJtbFUsQvzCqEvED1_RDK1ZXhm1ecQ4Vz49gsWe5FmG2gF-kwom9eb7ebY34wG_axRXzV9XcRnILL-FM3X6rOrhWH64eQUudkZkd7OYbLQVyJqjVLWf9W8qkezCPdWmONQg7W4e_5IwzyRycOsOYen5drVNBxUM8EMVchDYqy7pSj0V-33YRRWpwyhehJ661C5foSJElbo5gIK2Y' }}
+              style={styles.headerImage}
             />
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              {showPassword ? (
-                <Eye color={Colors.primaryContainer} size={20} />
-              ) : (
-                <EyeOff color={Colors.outlineVariant} size={20} />
-              )}
-            </TouchableOpacity>
+            <View style={styles.brandOverlay}>
+              <Text style={styles.brandTitle}>MShipping</Text>
+              <Text style={styles.brandSubtitle}>{t.brand_subtitle}</Text>
+            </View>
           </View>
-          <View style={styles.inputUnderline} />
-        </View>
 
-        {/* Action Area */}
-        <View style={styles.actionArea}>
-          <TouchableOpacity onPress={handleLogin} style={styles.loginBtn}>
-            <LinearGradient
-              colors={['#ffe2aa', '#fbc02d']}
-              style={styles.loginBtnGradient}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-            >
-              <Text style={styles.loginBtnText}>{t.login}</Text>
-            </LinearGradient>
-          </TouchableOpacity>
+          {/* Login Canvas */}
+          <View style={styles.formContainer}>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>{t.access_identity}</Text>
+              <View style={styles.inputWrapper}>
+                <User color={Colors.outlineVariant} size={20} />
+                <TextInput 
+                  style={styles.input}
+                  placeholder="Sterling_Alex"
+                  placeholderTextColor="rgba(79, 70, 51, 0.5)"
+                />
+              </View>
+              <View style={styles.inputUnderline} />
+            </View>
 
-          <TouchableOpacity 
-            style={styles.biometricBtnRow}
-            onPress={handleBiometricAuth}
-          >
-             <Fingerprint color={Colors.primaryContainer} size={32} strokeWidth={1.5} />
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>{t.secure_key}</Text>
+              <View style={styles.inputWrapper}>
+                <Lock color={Colors.outlineVariant} size={20} />
+                <TextInput 
+                  style={styles.input}
+                  placeholder="••••••••••••"
+                  placeholderTextColor="rgba(79, 70, 51, 0.5)"
+                  secureTextEntry={!showPassword}
+                />
+                <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                  {showPassword ? (
+                    <Eye color={Colors.primaryContainer} size={20} />
+                  ) : (
+                    <EyeOff color={Colors.outlineVariant} size={20} />
+                  )}
+                </TouchableOpacity>
+              </View>
+              <View style={styles.inputUnderline} />
+            </View>
+
+            {/* Action Area */}
+            <View style={styles.actionArea}>
+              <TouchableOpacity onPress={handleLogin} style={styles.loginBtn}>
+                <LinearGradient
+                  colors={['#ffe2aa', '#fbc02d']}
+                  style={styles.loginBtnGradient}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                >
+                  <Text style={styles.loginBtnText}>{t.login}</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
+                style={styles.biometricBtnRow}
+                onPress={handleBiometricAuth}
+              >
+                  <Fingerprint color={Colors.primaryContainer} size={32} strokeWidth={1.5} />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 

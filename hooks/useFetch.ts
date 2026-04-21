@@ -21,7 +21,7 @@ export function useFetch<T>(endpoint: string, mockData?: T) {
 
     setLoading(false);
     setRefreshing(false);
-  }, [endpoint, mockData]);
+  }, [endpoint]); // Remove mockData from dependencies as it's static
 
   useEffect(() => {
     fetchData();
