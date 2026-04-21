@@ -4,8 +4,8 @@
  * Supports both real endpoints and mock fallbacks.
  */
 
-const BASE_URL = 'https://api.mshipping.com/v1'; // Change this to your actual production/dev API
-const MOCK_ENABLED = true; // Set to false when connecting to real backend
+const BASE_URL = 'http://192.168.1.150:3000'; // Local machine IP for Expo connection
+const MOCK_ENABLED = false; // Set to false to use the real Bun backend we just created
 
 export interface ApiResponse<T> {
   data: T | null;
