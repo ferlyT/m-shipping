@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>KINETIC | Secure Access</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#9c8f79",
+                    "surface-tint": "#f8bd2a",
+                    "primary-container": "#fbc02d",
+                    "on-primary-container": "#6c5000",
+                    "primary-fixed-dim": "#f8bd2a",
+                    "on-surface-variant": "#d3c5ad",
+                    "error": "#ffb4ab",
+                    "secondary-fixed": "#d7e4ec",
+                    "surface-bright": "#393939",
+                    "on-background": "#e5e2e1",
+                    "surface-variant": "#353535",
+                    "on-secondary-fixed": "#111d23",
+                    "on-primary-fixed": "#261a00",
+                    "on-tertiary-fixed": "#001e2b",
+                    "surface-dim": "#131313",
+                    "on-primary": "#402d00",
+                    "secondary": "#bbc8d0",
+                    "outline-variant": "#4f4633",
+                    "error-container": "#93000a",
+                    "on-tertiary": "#003548",
+                    "surface-container": "#20201f",
+                    "on-secondary-container": "#aab7bf",
+                    "inverse-on-surface": "#313030",
+                    "on-secondary": "#263238",
+                    "tertiary": "#c8eaff",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-lowest": "#0e0e0e",
+                    "on-surface": "#e5e2e1",
+                    "primary-fixed": "#ffdfa0",
+                    "on-error": "#690005",
+                    "on-primary-fixed-variant": "#5c4300",
+                    "inverse-primary": "#795900",
+                    "inverse-surface": "#e5e2e1",
+                    "surface": "#131313",
+                    "secondary-container": "#3c494f",
+                    "surface-container-highest": "#353535",
+                    "on-tertiary-container": "#005b7a",
+                    "surface-container-low": "#1b1b1b",
+                    "on-tertiary-fixed-variant": "#004d67",
+                    "primary": "#ffe2aa",
+                    "secondary-fixed-dim": "#bbc8d0",
+                    "on-secondary-fixed-variant": "#3c494f",
+                    "tertiary-fixed-dim": "#75d1ff",
+                    "tertiary-fixed": "#c2e8ff",
+                    "surface-container-high": "#2a2a2a",
+                    "background": "#131313",
+                    "tertiary-container": "#7dd3ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Inter"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-panel {
+            background: rgba(53, 53, 53, 0.4);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+        .shimmer-btn {
+            background: linear-gradient(135deg, #ffe2aa 0%, #fbc02d 50%, #ffe2aa 100%);
+            background-size: 200% auto;
+            box-shadow: 0 0 20px rgba(248, 189, 42, 0.3);
+        }
+        .kinetic-mesh {
+            background: radial-gradient(circle at 50% 50%, #4f4633 0%, #131313 70%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-dim text-on-surface font-body selection:bg-primary selection:text-on-primary overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation / Brand Anchor Suppression: Transactional Screen -->
+<!-- Top Bar Extras: Language Toggle -->
+<div class="fixed top-6 right-6 z-[70] flex items-center space-x-4">
+<div class="flex items-center p-1 glass-panel rounded-full border border-outline-variant/15">
+<button class="px-4 py-1 text-[10px] font-bold tracking-widest text-primary-container rounded-full bg-surface-container-highest transition-all">EN</button>
+<button class="px-4 py-1 text-[10px] font-bold tracking-widest text-secondary transition-all hover:text-on-surface">ID</button>
+</div>
+</div>
+<!-- Main Connectivity Visual (Top 40%) -->
+<div class="relative w-full h-[353px] kinetic-mesh overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover mix-blend-screen opacity-60" data-alt="Abstract 3D golden flowing lines representing digital connectivity and kinetic energy on a dark obsidian background with glowing nodes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-YkLh50AfI1AMPzwwTcXqascJzMSiXdjeM-daXCRTBU1GLJST2XSxXxvJ5dcXJtbFUsQvzCqEvED1_RDK1ZXhm1ecQ4Vz49gsWe5FmG2gF-kwom9eb7ebY34wG_axRXzV9XcRnILL-FM3X6rOrhWH64eQUudkZkd7OYbLQVyJqjVLWf9W8qkezCPdWmONQg7W4e_5IwzyRycOsOYen5drVNBxUM8EMVchDYqy7pSj0V-33YRRWpwyhehJ661C5foSJElbo5gIK2Y"/>
+</div>
+<!-- Logo Branding Overlay -->
+<div class="absolute bottom-8 left-10 z-10">
+<h1 class="text-4xl font-black tracking-tighter text-primary leading-none">KINETIC</h1>
+<p class="text-[10px] font-medium tracking-[0.2em] text-secondary uppercase mt-2">Logistics &amp; Finance Intelligence</p>
+</div>
+</div>
+<!-- Login Canvas -->
+<main class="flex-grow flex flex-col items-center justify-start px-8 pt-12">
+<div class="w-full max-w-sm space-y-8">
+<div class="space-y-6">
+<!-- Username Field -->
+<div class="relative group">
+<label class="block text-[10px] font-bold tracking-widest text-secondary uppercase mb-2 ml-1">Access Identity</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-0 text-outline-variant">person</span>
+<input class="w-full bg-transparent border-none border-b border-outline-variant/30 focus:border-primary-container focus:ring-0 pl-8 pb-3 text-on-surface placeholder:text-outline-variant/50 transition-all" placeholder="Sterling_Alex" type="text"/>
+</div>
+<div class="absolute bottom-0 left-0 h-[1px] w-0 bg-primary-container transition-all duration-500 group-focus-within:w-full"></div>
+</div>
+<!-- Password Field -->
+<div class="relative group">
+<label class="block text-[10px] font-bold tracking-widest text-secondary uppercase mb-2 ml-1">Secure Key</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-0 text-outline-variant">lock</span>
+<input class="w-full bg-transparent border-none border-b border-outline-variant/30 focus:border-primary-container focus:ring-0 pl-8 pb-3 text-on-surface placeholder:text-outline-variant/50 transition-all" placeholder="••••••••••••" type="password"/>
+<span class="material-symbols-outlined absolute right-0 text-outline-variant cursor-pointer hover:text-primary">visibility_off</span>
+</div>
+<div class="absolute bottom-0 left-0 h-[1px] w-0 bg-primary-container transition-all duration-500 group-focus-within:w-full"></div>
+</div>
+</div>
+<!-- Action Area -->
+<div class="pt-4 flex flex-col items-center space-y-8">
+<button class="shimmer-btn w-full py-4 rounded-full text-on-primary font-bold tracking-widest uppercase text-xs transition-all active:scale-95 group overflow-hidden relative">
+<span class="relative z-10">Initialize Session</span>
+<div class="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+</button>
+<!-- Biometric Entry -->
+<button class="flex flex-col items-center group transition-all">
+<div class="w-16 h-16 rounded-2xl flex items-center justify-center glass-panel border border-outline-variant/15 group-hover:border-primary-container/40 group-active:scale-90 transition-all mb-3">
+<span class="material-symbols-outlined text-primary-container text-4xl" style="font-variation-settings: 'wght' 200;">fingerprint</span>
+</div>
+<span class="text-[10px] font-medium tracking-widest text-secondary uppercase opacity-60 group-hover:opacity-100 transition-opacity">Biometric Entry</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Floating Quick-Switch Widget (Drawer Replacement for Focused Journey) -->
+<div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[70]">
+<div class="flex items-center px-4 py-2 glass-panel rounded-full border border-outline-variant/15 space-x-6">
+<!-- Mini Lang Toggle -->
+<div class="flex items-center space-x-2 border-r border-outline-variant/20 pr-4">
+<span class="material-symbols-outlined text-secondary text-sm">translate</span>
+<span class="text-[10px] font-bold tracking-tight text-on-surface">EN</span>
+</div>
+<!-- Theme Toggle -->
+<div class="flex items-center space-x-4">
+<button class="flex items-center justify-center p-1 text-primary-container">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">dark_mode</span>
+</button>
+<button class="flex items-center justify-center p-1 text-secondary hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined text-lg">light_mode</span>
+</button>
+</div>
+<!-- Support -->
+<div class="flex items-center border-l border-outline-variant/20 pl-4">
+<button class="text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-lg">contact_support</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Background Accents -->
+<div class="fixed bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary-container/20 to-transparent"></div>
+<div class="fixed inset-0 pointer-events-none bg-[radial-gradient(circle_at_bottom_left,rgba(251,192,45,0.05)_0%,transparent_40%)]"></div>
+</body></html>
