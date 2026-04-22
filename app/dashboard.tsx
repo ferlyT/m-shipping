@@ -225,7 +225,7 @@ export default function DashboardScreen() {
               <TouchableOpacity
                 key={cust.id}
                 style={styles.listItem}
-                onPress={() => router.push({ pathname: '/customer-profile', params: { id: cust.id } })}
+                onPress={() => router.push({ pathname: '/customer-detail', params: { id: cust.id } })}
               >
                 <View style={styles.itemLeft}>
                   {cust.image ? (

@@ -55,7 +55,7 @@ export default function CustomersScreen() {
   const renderCustomerItem = ({ item }: { item: Customer }) => (
     <TouchableOpacity 
       activeOpacity={0.7} 
-      onPress={() => router.push({ pathname: '/customer-profile', params: { id: item.id } })}
+      onPress={() => router.push({ pathname: '/customer-detail', params: { id: item.id } })}
       style={styles.cardWrapper}
     >
       <BlurView intensity={20} tint={Colors.blurTint} style={styles.customerCard}>

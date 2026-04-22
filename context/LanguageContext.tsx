@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { translations, Language, TranslationKeys } from '../constants/Translations';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const LANG_KEY = '@app_language';
 
 type LanguageContextType = {
   language: Language;
@@ -12,8 +15,28 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>('en');
 
-  const setLanguage = (lang: Language) => {
-    setLanguageState(lang);
+  // Load language on mount
+  useEffect(() => {
+    const loadLanguage = async () => {
+      try {
+        const savedLang = await AsyncStorage.getItem(LANG_KEY);
+        if (savedLang) {
+          setLanguageState(savedLang as Language);
+        }
+      } catch (e) {
+        console.error('Failed to load language', e);
+      }
+    };
+    loadLanguage();
+  }, []);
+
+  const setLanguage = async (lang: Language) => {
+    try {
+      setLanguageState(lang);
+      await AsyncStorage.setItem(LANG_KEY, lang);
+    } catch (e) {
+      console.error('Failed to save language', e);
+    }
   };
 
   const value = {

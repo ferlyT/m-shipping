@@ -10,6 +10,7 @@ import { useTheme } from '../context/ThemeContext';
 import { useFetch } from '../hooks/useFetch';
 import * as ImagePicker from 'expo-image-picker';
 import { apiClient } from '../services/api';
+import * as LocalAuthentication from 'expo-local-authentication';
 import React, { useState } from 'react';
 
 interface ProfileData {
@@ -38,11 +39,8 @@ export default function SettingsScreen() {
 
   const { data: profileRaw, loading, refetch } = useFetch<any>('/profile', MOCK_PROFILE);
 
-  // Prevent blank screen by merging raw data with mock as fallback
-  // Also force filter out any accidental "Local Mode" string if it persists in cache
-  const profile = (profileRaw && !profileRaw.error && profileRaw.name !== 'Ferly (Local Mode)') 
-    ? profileRaw 
-    : MOCK_PROFILE;
+  // Use real data if available, fall back to mock
+  const profile = (profileRaw && !profileRaw.error) ? profileRaw : MOCK_PROFILE;
 
   const [showEditName, setShowEditName] = useState(false);
   const [showEditPass, setShowEditPass] = useState(false);
@@ -60,6 +58,17 @@ export default function SettingsScreen() {
   }, [profileRaw]);
 
   const toggleBiometric = async (value: boolean) => {
+    const hasHardware = await LocalAuthentication.hasHardwareAsync();
+    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+
+    if (!hasHardware || !isEnrolled) {
+      Alert.alert(
+        'Not Supported', 
+        'Your device does not support biometric authentication or no biometrics are enrolled.'
+      );
+      return;
+    }
+
     if (value) {
       const result = await LocalAuthentication.authenticateAsync({
         promptMessage: 'Confirm identity to enable Biometrics',
@@ -72,6 +81,43 @@ export default function SettingsScreen() {
       setIsBiometricEnabled(false);
       await apiClient.patch('/profile/biometric', { enabled: false });
     }
+  };
+
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+
+  // Sync with database value when profile loads
+  React.useEffect(() => {
+    if (profileRaw && !profileRaw.error) {
+      if (typeof profileRaw.isBiometricEnabled !== 'undefined') {
+        setIsBiometricEnabled(profileRaw.isBiometricEnabled);
+      }
+      if (typeof profileRaw.notificationsEnabled !== 'undefined') {
+        setNotificationsEnabled(profileRaw.notificationsEnabled);
+      }
+      // If language in DB differs from current context, sync it
+      if (profileRaw.language && profileRaw.language !== language) {
+        setLanguage(profileRaw.language);
+      }
+      // If theme in DB differs from current context, sync it
+      if (profileRaw.theme && profileRaw.theme !== mode) {
+        setMode(profileRaw.theme);
+      }
+    }
+  }, [profileRaw]);
+
+  const handleLanguageChange = async (lang: any) => {
+    setLanguage(lang);
+    await apiClient.patch('/profile/settings', { language: lang });
+  };
+
+  const handleThemeChange = async (newMode: any) => {
+    setMode(newMode);
+    await apiClient.patch('/profile/settings', { theme: newMode });
+  };
+
+  const toggleNotifications = async (value: boolean) => {
+    setNotificationsEnabled(value);
+    await apiClient.patch('/profile/settings', { notificationsEnabled: value });
   };
 
   const handleLogout = () => {
@@ -206,10 +252,14 @@ export default function SettingsScreen() {
               <Text style={styles.boxTitle}>{t.acc_security}</Text>
             </View>
             <View style={styles.settingRow}>
-              <View>
+              <TouchableOpacity 
+                activeOpacity={0.7} 
+                onPress={() => toggleBiometric(!isBiometricEnabled)}
+                style={{ flex: 1 }}
+              >
                 <Text style={styles.settingMainText}>{t.biometric_login}</Text>
                 <Text style={styles.settingSubText}>Face ID / Fingerprint</Text>
-              </View>
+              </TouchableOpacity>
               <Switch 
                 value={isBiometricEnabled} 
                 onValueChange={toggleBiometric}
@@ -235,15 +285,20 @@ export default function SettingsScreen() {
                 <Text style={styles.settingMainText}>{t.notifications}</Text>
                 <Text style={styles.settingSubText}>Real-time logistics alerts</Text>
               </View>
-              <Switch value={true} trackColor={{ false: '#353535', true: Colors.primaryContainer }} thumbColor={Colors.onPrimary} />
+              <Switch 
+                value={notificationsEnabled} 
+                onValueChange={toggleNotifications}
+                trackColor={{ false: '#353535', true: Colors.primaryContainer }} 
+                thumbColor={Colors.onPrimary} 
+              />
             </View>
-            <View style={styles.settingRow}>
+            {/* <View style={styles.settingRow}>
               <View>
                 <Text style={styles.settingMainText}>Email Summaries</Text>
                 <Text style={styles.settingSubText}>Weekly financial reports</Text>
               </View>
               <Switch value={false} trackColor={{ false: '#353535', true: Colors.primaryContainer }} thumbColor={Colors.onPrimary} />
-            </View>
+            </View> */}
           </BlurView>
         </View>
 
@@ -258,13 +313,13 @@ export default function SettingsScreen() {
             <View style={styles.segmentedControl}>
               <TouchableOpacity 
                 style={mode === 'dark' ? styles.segmentedBtnActive : styles.segmentedBtn}
-                onPress={() => setMode('dark')}
+                onPress={() => handleThemeChange('dark')}
               >
                 <Text style={mode === 'dark' ? styles.segmentedTextActive : styles.segmentedText}>Dark Mode</Text>
               </TouchableOpacity>
               <TouchableOpacity 
                 style={mode === 'light' ? styles.segmentedBtnActive : styles.segmentedBtn}
-                onPress={() => setMode('light')}
+                onPress={() => handleThemeChange('light')}
               >
                 <Text style={mode === 'light' ? styles.segmentedTextActive : styles.segmentedText}>Light Mode</Text>
               </TouchableOpacity>
@@ -276,13 +331,13 @@ export default function SettingsScreen() {
             <View style={styles.segmentedControl}>
               <TouchableOpacity 
                 style={language === 'en' ? styles.segmentedBtnActive : styles.segmentedBtn}
-                onPress={() => setLanguage('en')}
+                onPress={() => handleLanguageChange('en')}
               >
                 <Text style={language === 'en' ? styles.segmentedTextActive : styles.segmentedText}>EN</Text>
               </TouchableOpacity>
               <TouchableOpacity 
                 style={language === 'id' ? styles.segmentedBtnActive : styles.segmentedBtn}
-                onPress={() => setLanguage('id')}
+                onPress={() => handleLanguageChange('id')}
               >
                 <Text style={language === 'id' ? styles.segmentedTextActive : styles.segmentedText}>ID</Text>
               </TouchableOpacity>

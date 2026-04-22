@@ -55,7 +55,7 @@ export default function InvoicesScreen() {
   const renderInvoiceItem = ({ item }: { item: Invoice }) => (
     <TouchableOpacity 
       activeOpacity={0.7} 
-      onPress={() => router.push({ pathname: '/invoice', params: { id: item.id } })}
+      onPress={() => router.push({ pathname: '/invoice-detail', params: { id: item.id } })}
       style={styles.cardWrapper}
     >
       <BlurView intensity={20} tint={Colors.blurTint} style={[styles.invoiceCard, item.status === 'Overdue' && styles.borderError]}>

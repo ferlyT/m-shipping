@@ -58,14 +58,14 @@ export default function ShipmentsScreen() {
       progress={item.progress}
       steps={commonSteps}
       currentStepIndex={item.currentStepIndex}
-      onPress={() => router.push({ pathname: '/surat-jalan', params: { id: item.id } })}
+      onPress={() => router.push({ pathname: '/shipment-detail', params: { id: item.id } })}
       footerContent={
         <React.Fragment>
           <Text style={styles.cardFooterLight}>
             {item.status === 'Delivered' ? 'Completed: ' : (item.eta ? `ETA: ` : '')}
             <Text style={styles.cardFooterBold}>{item.eta || item.cargo}</Text>
           </Text>
-          <TouchableOpacity onPress={() => router.push({ pathname: '/surat-jalan', params: { id: item.id } })}>
+          <TouchableOpacity onPress={() => router.push({ pathname: '/shipment-detail', params: { id: item.id } })}>
             <Text style={styles.linkText}>{item.status === 'Delivered' ? 'View Details' : (item.eta ? 'Track' : 'View manifest')}</Text>
           </TouchableOpacity>
         </React.Fragment>

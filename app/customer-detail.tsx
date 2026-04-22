@@ -89,6 +89,18 @@ export default function CustomerProfileScreen() {
 
   if (!customer) return null;
 
+  const parseCurrency = (val: string) => {
+    if (!val) return 0;
+    const num = parseFloat(val.replace(/[^0-9.]/g, ''));
+    if (val.includes('B')) return num * 1000000000;
+    if (val.includes('M')) return num * 1000000;
+    return num;
+  };
+
+  const creditUsed = parseCurrency(customer.stats.credits);
+  const creditLimit = parseCurrency(customer.stats.creditLimit);
+  const creditProgress = Math.min((creditUsed / creditLimit) * 100, 100);
+
   return (
     <ScreenContainer showBack={true} title={customer.name} withScroll={false}>
       <ScrollView 
@@ -101,10 +113,16 @@ export default function CustomerProfileScreen() {
           {/* Profile Header */}
           <View style={styles.profileHeader}>
             <View style={styles.avatarGrid}>
-              <Image source={{ uri: customer.image }} style={styles.profileImage} />
-              <View style={styles.statusPill}>
-                <View style={styles.statusDot} />
-                <Text style={styles.statusText}>{customer.status}</Text>
+              {customer.image ? (
+                <Image source={{ uri: customer.image }} style={styles.profileImage} />
+              ) : (
+                <View style={[styles.profileImage, styles.initialsAvatar]}>
+                  <Text style={styles.initialsText}>{customer.name.charAt(0).toUpperCase()}</Text>
+                </View>
+              )}
+              <View style={[styles.statusPill, customer.status === 'INACTIVE' && styles.statusPillInactive]}>
+                <View style={[styles.statusDot, customer.status === 'INACTIVE' && styles.statusDotInactive]} />
+                <Text style={[styles.statusText, customer.status === 'INACTIVE' && styles.statusTextInactive]}>{customer.status}</Text>
               </View>
             </View>
             <View style={styles.headerInfo}>
@@ -150,7 +168,7 @@ export default function CustomerProfileScreen() {
               <View style={styles.financeTrend}><TrendingUp color="#00e676" size={16} /></View>
             </View>
             <View style={styles.progressContainer}>
-              <View style={styles.progressBarBg}><View style={[styles.progressBarFill, { width: '25.4%' }]} /></View>
+              <View style={styles.progressBarBg}><View style={[styles.progressBarFill, { width: `${creditProgress}%` }]} /></View>
               <Text style={styles.progressText}>IDR {customer.stats.credits} {t.on_limit} {customer.stats.creditLimit}</Text>
             </View>
           </BlurView>
@@ -196,9 +214,9 @@ export default function CustomerProfileScreen() {
                 activeOpacity={0.7}
                 onPress={() => {
                   if (act.type === 'SHIPMENT') {
-                    router.push({ pathname: '/surat-jalan', params: { id: act.title } });
+                    router.push({ pathname: '/shipment-detail', params: { id: act.title } });
                   } else if (act.type === 'BILLING') {
-                    router.push({ pathname: '/invoice', params: { id: act.title } });
+                    router.push({ pathname: '/invoice-detail', params: { id: act.title } });
                   }
                 }}
               >
@@ -233,9 +251,14 @@ const getStyles = (Colors: any) => StyleSheet.create({
   profileHeader: { flexDirection: 'row', gap: 24, paddingHorizontal: 4, marginBottom: 32 },
   avatarGrid: { alignItems: 'center', gap: 12 },
   profileImage: { width: 100, height: 100, borderRadius: 24, borderWidth: 3, borderColor: 'rgba(251, 192, 45, 0.2)' },
+  initialsAvatar: { backgroundColor: 'rgba(251, 192, 45, 0.1)', justifyContent: 'center', alignItems: 'center', borderStyle: 'dashed' },
+  initialsText: { fontSize: 36, fontWeight: 'bold', color: Colors.primaryContainer },
   statusPill: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: 'rgba(0, 230, 118, 0.1)', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999 },
+  statusPillInactive: { backgroundColor: 'rgba(255, 180, 171, 0.1)' },
   statusDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#00e676' },
+  statusDotInactive: { backgroundColor: '#ffb4ab' },
   statusText: { color: '#00e676', fontSize: 10, fontWeight: 'bold' },
+  statusTextInactive: { color: '#ffb4ab' },
   headerInfo: { flex: 1, justifyContent: 'center' },
   customerName: { fontSize: 24, fontWeight: 'bold', color: Colors.onSurface, marginBottom: 4 },
   sinceText: { fontSize: 12, color: Colors.secondary, marginBottom: 12 },

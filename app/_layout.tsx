@@ -12,11 +12,11 @@ function AppContent() {
         <Stack.Screen name="index" />
         <Stack.Screen name="dashboard" />
         <Stack.Screen name="customers" />
-        <Stack.Screen name="customer-profile" />
+        <Stack.Screen name="customer-detail" />
         <Stack.Screen name="shipments" />
-        <Stack.Screen name="surat-jalan" />
+        <Stack.Screen name="shipment-detail" />
         <Stack.Screen name="invoices" />
-        <Stack.Screen name="invoice" />
+        <Stack.Screen name="invoice-detail" />
         <Stack.Screen name="invoice-report" />
         <Stack.Screen name="settings" />
         <Stack.Screen name="change-password" />
