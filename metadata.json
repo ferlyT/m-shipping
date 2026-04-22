@@ -1,6 +1,0 @@
-{
-  "name": "M-Shipping",
-  "description": "A mobile application to view customer data, delivery orders (surat jalan), and invoices from an existing MS SQL database.",
-  "requestFramePermissions": [],
-  "majorCapabilities": []
-}

@@ -7,12 +7,17 @@ import { useLanguage } from '../context/LanguageContext';
 import { useThemeColors } from '../hooks/useThemeColors';
 import { ScreenContainer } from '../components/ScreenContainer';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useFetch } from '../hooks/useFetch';
+import { apiClient } from '../services/api';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function EditProfileScreen() {
   const Colors = useThemeColors();
   const styles = getStyles(Colors);
   const router = useRouter();
   const { t } = useLanguage();
+
+  const { data: profile, refetch } = useFetch<{ name?: string; email?: string; avatar?: string }>('/profile', { name: '', avatar: '' });
 
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -22,6 +27,33 @@ export default function EditProfileScreen() {
     company: 'Sterling Group Logistics',
     address: 'Jl. Sudirman Kav 52-53, Jakarta'
   });
+
+  const handleChangePhoto = async () => {
+    try {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permission Denied', 'Camera roll permission is required.');
+        return;
+      }
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ['images'],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.5,
+      });
+      if (!result.canceled) {
+        const resp = await apiClient.upload('/profile/avatar', result.assets[0].uri);
+        if (!resp.error) {
+          Alert.alert('Success', 'Photo updated!');
+          refetch();
+        } else {
+          Alert.alert('Error', 'Failed to update photo.');
+        }
+      }
+    } catch (err) {
+      Alert.alert('Error', 'Something went wrong.');
+    }
+  };
 
   const handleSave = async () => {
     setLoading(true);
@@ -58,11 +90,19 @@ export default function EditProfileScreen() {
           {/* Avatar Section */}
           <View style={styles.avatarSection}>
              <View style={styles.avatarWrapper}>
-                <Image 
-                  source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDGUKg52UXRDXiRhQTaFi7m-5lc0ifcmxUYFcPGRQhK4NGKXBFrb8ahHPJceQBE_D-by6xTtSz6Dlvyz7Q4ldAECScVUGfBGrDx5Ba2R_jSc95ZGTM0pYrdpQ3RwY2XOnFcvm80ZZML90dncd_tcIztP5UHF8sVAhPu6ubKPbNFciSVZYGhewHsF2JtCTzx9lULCD41Z0zWS_WuHR0AG8jzY0JlSzsMG8WEwEPcdPOFX9Bld6NShPFlIryW3t464ZLEB2jCMsJshs4' }} 
-                  style={styles.avatar} 
-                />
-                <TouchableOpacity style={styles.cameraBtn}>
+                {profile?.avatar && profile.avatar.startsWith('http') ? (
+                  <Image 
+                    source={{ uri: profile.avatar }} 
+                    style={styles.avatar} 
+                  />
+                ) : (
+                  <View style={[styles.avatar, styles.initialsAvatar]}>
+                    <Text style={styles.initialsText}>
+                      {(profile?.name || 'U').charAt(0).toUpperCase()}
+                    </Text>
+                  </View>
+                )}
+                <TouchableOpacity style={styles.cameraBtn} onPress={handleChangePhoto}>
                    <Camera color={Colors.onPrimary} size={16} />
                 </TouchableOpacity>
              </View>
@@ -107,6 +147,8 @@ const getStyles = (Colors: any) => StyleSheet.create({
   avatarSection: { alignItems: 'center', marginVertical: 32 },
   avatarWrapper: { position: 'relative' },
   avatar: { width: 120, height: 120, borderRadius: 60, borderWidth: 4, borderColor: Colors.cardBorder },
+  initialsAvatar: { backgroundColor: 'rgba(251, 192, 45, 0.12)', justifyContent: 'center', alignItems: 'center', borderStyle: 'dashed' },
+  initialsText: { fontSize: 48, fontWeight: '900', color: Colors.primaryContainer },
   cameraBtn: { position: 'absolute', bottom: 0, right: 0, backgroundColor: Colors.primaryContainer, width: 36, height: 36, borderRadius: 18, alignItems: 'center', justifyContent: 'center', borderWidth: 3, borderColor: Colors.surface },
   avatarHint: { fontSize: 11, color: Colors.secondary, marginTop: 12, fontWeight: '500' },
   card: { padding: 24, borderRadius: 24, borderWidth: 1, borderColor: Colors.cardBorder, overflow: 'hidden' },

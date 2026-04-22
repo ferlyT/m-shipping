@@ -73,6 +73,7 @@ export default function DashboardScreen() {
   const { t } = useLanguage();
 
   const { data, loading, refreshing, refetch, error } = useFetch<DashboardData>('/dashboard', MOCK_DASHBOARD);
+  const { data: profileData } = useFetch<{ name?: string; avatar?: string }>('/profile', { name: 'User', avatar: '' });
 
   if (loading && !data) {
     return (
@@ -101,7 +102,15 @@ export default function DashboardScreen() {
             <Text style={styles.pTitle}>Operations Hub</Text>
           </View>
           <TouchableOpacity onPress={() => router.push('/settings')} style={styles.avatarBtn}>
-            <Image source={{ uri: 'https://ui-avatars.com/api/?name=User&background=random&color=fff' }} style={styles.avatar} />
+            {profileData?.avatar && profileData.avatar.startsWith('http') ? (
+              <Image source={{ uri: profileData.avatar }} style={styles.headerAvatar} />
+            ) : (
+              <View style={styles.headerInitials}>
+                <Text style={styles.headerInitialsText}>
+                  {(profileData?.name || 'U').charAt(0).toUpperCase()}
+                </Text>
+              </View>
+            )}
           </TouchableOpacity>
         </View>
 
@@ -250,7 +259,9 @@ const getStyles = (Colors: any) => StyleSheet.create({
   welcomeText: { color: Colors.secondary, fontSize: 12, fontWeight: '500', letterSpacing: 1 },
   pTitle: { fontSize: 24, fontWeight: 'bold', color: Colors.onSurface },
   avatarBtn: { width: 44, height: 44, borderRadius: 22, overflow: 'hidden', borderWidth: 2, borderColor: Colors.cardBorder },
-  avatar: { width: '100%', height: '100%' },
+  headerAvatar: { width: '100%', height: '100%' },
+  headerInitials: { width: '100%', height: '100%', backgroundColor: 'rgba(251, 192, 45, 0.15)', alignItems: 'center', justifyContent: 'center' },
+  headerInitialsText: { color: Colors.primaryContainer, fontWeight: '900', fontSize: 18 },
   card: { borderRadius: 20, padding: 20, borderWidth: 1, borderColor: Colors.cardBorder, marginBottom: 16, marginHorizontal: 24 },
   heroCard: { minHeight: 220, justifyContent: 'space-between' },
   cardHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
