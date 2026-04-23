@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TextInput, TouchableOpacity, ActivityIndicator, RefreshControl } from 'react-native';
-import { Search, FileText, CheckCircle2, AlertCircle, Clock, Download, ChevronLeft, X, Filter } from 'lucide-react-native';
+import { Search, FileText, CheckCircle2, AlertCircle, Clock, Download, X, Filter } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
-import { useLanguage } from '../context/LanguageContext';
 import { useThemeColors } from '../hooks/useThemeColors';
 import { ScreenContainer } from '../components/ScreenContainer';
 import { BlurView } from 'expo-blur';
@@ -29,8 +28,7 @@ export default function InvoicesScreen() {
   const Colors = useThemeColors();
   const styles = getStyles(Colors);
   const router = useRouter();
-  const { t } = useLanguage();
-
+  
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState<'All' | 'Pending' | 'Cleared' | 'Overdue'>('All');
 

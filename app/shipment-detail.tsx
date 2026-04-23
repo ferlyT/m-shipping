@@ -1,6 +1,6 @@
 import { BlurView } from 'expo-blur';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Globe, MapPin, Package, PackageSearch, Truck, Share2 } from 'lucide-react-native';
+import { MapPin, Package, PackageSearch, Truck, Share2 } from 'lucide-react-native';
 import React, { useRef } from 'react';
 import { ActivityIndicator, Image, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ViewShot from 'react-native-view-shot';
@@ -81,12 +81,11 @@ const MOCK_SHIPMENT_DETAILS: Record<string, ShipmentDetail> = {
 export default function SuratJalanScreen() {
   const Colors = useThemeColors();
   const styles = getStyles(Colors);
-  const router = useRouter();
-  const { id } = useLocalSearchParams();
+    const { id } = useLocalSearchParams();
   const { t } = useLanguage();
 
   const targetId = (id as string) || 'SJ-2024-8892';
-  const { data: shipment, loading, refreshing, refetch, error } = useFetch<ShipmentDetail>(`/shipments/${targetId}`, MOCK_SHIPMENT_DETAILS['SJ-2024-8892']);
+  const { data: shipment, loading, refreshing, refetch } = useFetch<ShipmentDetail>(`/shipments/${targetId}`, MOCK_SHIPMENT_DETAILS['SJ-2024-8892']);
   const viewShotRef = useRef<any>(null);
 
   if (loading && !shipment) {

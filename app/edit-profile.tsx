@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ActivityInd
 import { BlurView } from 'expo-blur';
 import { User, Mail, Phone, Building2, Camera, Save, MapPin } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
-import { useLanguage } from '../context/LanguageContext';
 import { useThemeColors } from '../hooks/useThemeColors';
 import { ScreenContainer } from '../components/ScreenContainer';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -15,8 +14,7 @@ export default function EditProfileScreen() {
   const Colors = useThemeColors();
   const styles = getStyles(Colors);
   const router = useRouter();
-  const { t } = useLanguage();
-
+  
   const { data: profile, refetch } = useFetch<{ name?: string; email?: string; avatar?: string }>('/profile', { name: '', avatar: '' });
 
   const [loading, setLoading] = useState(false);
@@ -50,7 +48,7 @@ export default function EditProfileScreen() {
           Alert.alert('Error', 'Failed to update photo.');
         }
       }
-    } catch (err) {
+    } catch {
       Alert.alert('Error', 'Something went wrong.');
     }
   };

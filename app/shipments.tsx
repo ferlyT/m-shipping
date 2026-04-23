@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList, ActivityIndicator, RefreshControl } from 'react-native';
-import { Search, Truck, X } from 'lucide-react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList, RefreshControl } from 'react-native';
+import { Search, X } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useLanguage } from '../context/LanguageContext';
 import { useThemeColors } from '../hooks/useThemeColors';

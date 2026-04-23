@@ -10,7 +10,6 @@ import {
 import React from 'react';
 import { ActivityIndicator, Image, RefreshControl, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { ScreenContainer } from '../components/ScreenContainer';
-import { useLanguage } from '../context/LanguageContext';
 import { useFetch } from '../hooks/useFetch';
 import { useThemeColors } from '../hooks/useThemeColors';
 
@@ -70,9 +69,8 @@ export default function DashboardScreen() {
   const Colors = useThemeColors();
   const styles = getStyles(Colors);
   const router = useRouter();
-  const { t } = useLanguage();
-
-  const { data, loading, refreshing, refetch, error } = useFetch<DashboardData>('/dashboard', MOCK_DASHBOARD);
+  
+  const { data, loading, refreshing, refetch } = useFetch<DashboardData>('/dashboard', MOCK_DASHBOARD);
   const { data: profileData } = useFetch<{ name?: string; avatar?: string }>('/profile', { name: 'User', avatar: '' });
 
   if (loading && !data) {

@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ActivityIndicator } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
-import { TrendingUp, Calendar, Download, PieChart, BarChart3, ChevronRight, FileSpreadsheet, Share2 } from 'lucide-react-native';
-import { useRouter } from 'expo-router';
-import { useLanguage } from '../context/LanguageContext';
+import { TrendingUp, Calendar, Download, PieChart, BarChart3, FileSpreadsheet, Share2 } from 'lucide-react-native';
 import { useThemeColors } from '../hooks/useThemeColors';
 import { ScreenContainer } from '../components/ScreenContainer';
 
-const { width } = Dimensions.get('window');
+const { } = Dimensions.get('window');
 
 // --- TS Interface ---
 interface ReportData {
@@ -47,9 +45,7 @@ const MOCK_REPORT: ReportData = {
 export default function InvoiceReportScreen() {
   const Colors = useThemeColors();
   const styles = getStyles(Colors);
-  const router = useRouter();
-  const { t } = useLanguage();
-
+    
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<ReportData | null>(null);
 

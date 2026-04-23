@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, ActivityIndicator, RefreshControl } from 'react-native';
 import { BlurView } from 'expo-blur';
-import { Shield, ChevronRight, TrendingUp, Package, Building2, MapPin, Phone, Mail, FileText, Star } from 'lucide-react-native';
+import { ChevronRight, TrendingUp, Package, Building2, MapPin, Phone, Mail, FileText, Star } from 'lucide-react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { useLanguage } from '../context/LanguageContext';
 import { useThemeColors } from '../hooks/useThemeColors';
@@ -74,7 +74,7 @@ export default function CustomerProfileScreen() {
   const { t } = useLanguage();
 
   const targetId = (id as string) || 'CUST-001';
-  const { data: customer, loading, refreshing, refetch, error } = useFetch<CustomerDetail>(`/customers/${targetId}`, MOCK_CUSTOMER);
+  const { data: customer, loading, refreshing, refetch } = useFetch<CustomerDetail>(`/customers/${targetId}`, MOCK_CUSTOMER);
 
   if (loading && !customer) {
     return (

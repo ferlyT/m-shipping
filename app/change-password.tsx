@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { BlurView } from 'expo-blur';
-import { ShieldCheck, Key, Eye, EyeOff, Save, Lock, ChevronLeft, AlertCircle } from 'lucide-react-native';
+import { ShieldCheck, Key, Eye, EyeOff, Save, Lock, AlertCircle } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
-import { useLanguage } from '../context/LanguageContext';
 import { useThemeColors } from '../hooks/useThemeColors';
 import { ScreenContainer } from '../components/ScreenContainer';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -12,7 +11,6 @@ export default function ChangePasswordScreen() {
   const Colors = useThemeColors();
   const styles = getStyles(Colors);
   const router = useRouter();
-  const { t } = useLanguage();
 
   const [loading, setLoading] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');

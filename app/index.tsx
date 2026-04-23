@@ -1,5 +1,4 @@
 import { BlurView } from 'expo-blur';
-import { LinearGradient } from 'expo-linear-gradient';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { useRouter } from 'expo-router';
 import { Eye, EyeOff, Fingerprint, Lock, User } from 'lucide-react-native';
@@ -8,7 +7,7 @@ import { Alert, Dimensions, Image, Keyboard, KeyboardAvoidingView, Platform, Scr
 import { useLanguage } from '../context/LanguageContext';
 import { useThemeColors } from '../hooks/useThemeColors';
 
-const { width, height } = Dimensions.get('window');
+const { height } = Dimensions.get('window');
 
 export default function LoginScreen() {
   const Colors = useThemeColors();
@@ -43,7 +42,7 @@ export default function LoginScreen() {
       if (result.success) {
         router.replace('/dashboard');
       }
-    } catch (error) {
+    } catch {
       Alert.alert('Error', 'Gagal memproses autentikasi biometrik');
     }
   };

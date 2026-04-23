@@ -58,11 +58,10 @@ const MOCK_INVOICE_DETAIL: InvoiceDetail = {
 export default function InvoiceDetailScreen() {
   const Colors = useThemeColors();
   const styles = getStyles(Colors);
-  const router = useRouter();
-  const { id } = useLocalSearchParams();
+    const { id } = useLocalSearchParams();
   const { t } = useLanguage();
 
-  const { data: invoice, loading, refreshing, refetch, error } = useFetch<InvoiceDetail>(`/invoices/${id}`, MOCK_INVOICE_DETAIL);
+  const { data: invoice, loading, refreshing, refetch } = useFetch<InvoiceDetail>(`/invoices/${id}`, MOCK_INVOICE_DETAIL);
   const viewShotRef = useRef<any>(null);
 
   if (loading || !invoice) {
