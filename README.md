@@ -1,56 +1,91 @@
 # MShipping Mobile
 
-A mobile logistics management application built with Expo (React Native) and a Bun/Elysia backend.
+A premium mobile logistics management application built with Expo (React Native) and a high-performance Bun/Elysia backend.
 
-## Tech Stack
+## 🚀 Features
 
-- **Frontend**: Expo SDK 54, React Native, Expo Router (file-based routing)
-- **Backend**: Bun + Elysia, Drizzle ORM, MySQL
-- **UI**: Custom components with BlurView, LinearGradient, Lucide icons
+- **Modern Dashboard**: Real-time logistics analytics and shipment tracking.
+- **Invoice Management**: Modernized card-based UI with professional A5 Landscape PDF export.
+- **Secure Auth**: JWT-based authentication with Biometric login support (FaceID/Fingerprint).
+- **Interactive Tracking**: Detailed shipment journey steps and real-time status updates.
+- **Full API Docs**: Interactive Swagger documentation for all backend services.
 
-## Project Structure
+## 🛠 Tech Stack
+
+- **Frontend**: 
+  - Expo SDK 54 (React Native)
+  - Expo Router (File-based routing)
+  - Custom UI Components (BlurView, LinearGradient, Lucide Icons)
+  - Expo Print & Sharing (PDF Generation)
+- **Backend**: 
+  - [Bun](https://bun.sh) (Runtime)
+  - ElysiaJS (Web Framework)
+  - Drizzle ORM
+  - **Microsoft SQL Server (MS-SQL)**
+- **API Documentation**: OpenAPI 3.0 / Swagger
+
+## 📂 Project Structure
 
 ```
-app/          → Expo Router screens (dashboard, customers, shipments, invoices, settings)
-components/   → Shared React Native components (BottomNav, ScreenContainer, etc.)
-constants/    → Theme colors & translations
-context/      → Language & Theme context providers
-hooks/        → Custom hooks (useFetch, useThemeColors)
-services/     → API client
-backend/      → Bun/Elysia REST API server
+shipping-mobile/
+├── app/                # Expo Router screens (invoices, shipments, profile, etc.)
+├── components/         # Shared UI components (Cards, Badges, Nav)
+├── constants/          # Theme tokens, colors, and translations
+├── services/           # Frontend API client (Axios)
+└── backend/            # Backend Elysia service
+    ├── drizzle/        # Auto-generated migrations
+    └── src/
+        ├── db/         # MS-SQL schema & database connection
+        ├── routes/     # Modular route handlers (auth, invoices, etc.)
+        └── index.ts    # Main entry point & Swagger setup
 ```
 
-## Getting Started
+## 🏁 Getting Started
 
 ### Prerequisites
 
-- Node.js 18+
-- [Bun](https://bun.sh) (for backend)
-- MySQL server running locally
-- Expo Go app on your phone
+- [Node.js](https://nodejs.org) (18+)
+- [Bun](https://bun.sh) (Required for backend)
+- **Microsoft SQL Server** running (Local or Cloud)
+- [Expo Go](https://expo.dev/go) app on your mobile device
 
-### Frontend (Expo)
-
-```bash
-npm install
-npx expo start
-```
-
-### Backend (Bun/Elysia)
+### 1. Backend Setup (Bun)
 
 ```bash
 cd backend
 bun install
-# Configure .env with your MySQL credentials
+
+# Configure .env with MS-SQL credentials (see list below)
+# Seed the database
+bun src/db/seed.ts
+
+# Start the dev server
 bun run dev
 ```
+*Swagger UI available at:* `http://localhost:3000/swagger`
 
-### Environment Variables (Backend)
+### 2. Frontend Setup (Expo)
 
+```bash
+# From root directory
+npm install
+npx expo start -c
 ```
-DB_HOST=127.0.0.1
-DB_USER=root
-DB_PASSWORD=your_password
+
+## 🔐 Environment Variables (Backend)
+
+Create a `.env` file in the `backend/` folder:
+
+```env
+DB_HOST=localhost
+DB_USER=sa
+DB_PASSWORD=your_strong_password
 DB_NAME=mshipping_db
-JWT_SECRET=your_secret_key
+JWT_SECRET=MSHIPPING_SECRET_KEY_2024
+SERVER_SIGNATURE=MSHIPPING_V2_SECURE
+APP_PORT=3000
+APP_BASE_URL=http://localhost:3000
 ```
+
+---
+*Built with ❤️ by MShipping Dev Team*
